@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
-<title>Necromancer Defense v5.1: Siege (3D)</title>
+<title>Necromancer Defense v5.3: Siege (3D)</title>
+<meta name="game-version" content="v5.3">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
 <style>
 *{box-sizing:border-box}
@@ -1343,7 +1344,7 @@ function drawHero(h,t){const r=h.r;const hs=sprReady&&sprOn&&SPR.hero;
   ctx.strokeStyle='rgba(159,227,109,.35)';ctx.lineWidth=1;ctx.beginPath();for(let i=0;i<3;i++){const a=t*1.5+i*2.09;ctx.moveTo(h.x+Math.cos(a)*22+2,h.y+Math.sin(a)*12);ctx.arc(h.x+Math.cos(a)*22,h.y+Math.sin(a)*12,2,0,7);}ctx.stroke();
   if(hs){sprUnit('hero',h.x,h.y,r,h.face,uFrame(h),{flash:h.flash,fa:.5});const sp=SPR.hero,s=(r/sp.r)/sp.P,sd=sprDir(h.face);
     if(h.atkAnim>0||h.castT>0){ctx.globalCompositeOperation='lighter';drawGlow(h.x+Math.cos(h.face)*r*.9,h.y-r*2+Math.sin(h.face)*r*.5,18,'rgba(159,227,109,.9)');ctx.globalCompositeOperation='source-over';}
-    ctx.font='bold 10px sans-serif';ctx.textAlign='center';ctx.fillStyle='#ffd76a';ctx.fillText('Lv '+h.level,h.x,h.y-uTop(h)-12);return;}
+    ctx.font='bold 13px sans-serif';ctx.textAlign='center';ctx.fillStyle='#ffd76a';ctx.fillText('Lv '+h.level,h.x,h.y-uTop(h)-12);return;}
   ctx.save();ctx.translate(h.x,h.y);ctx.rotate(h.face);const bob=Math.sin(h.anim*.8)*1.2;
   // cloak
   const cg=ctx.createRadialGradient(-3,0,2,0,0,r*1.4);cg.addColorStop(0,'#4a2a70');cg.addColorStop(1,'#1a0d2a');ctx.fillStyle=cg;ctx.beginPath();ctx.moveTo(r*.6,-r*.9);ctx.quadraticCurveTo(-r*1.6,-r*1.3+bob,-r*1.5,0);ctx.quadraticCurveTo(-r*1.6,r*1.3-bob,r*.6,r*.9);ctx.closePath();ctx.fill();
@@ -1357,7 +1358,7 @@ function drawHero(h,t){const r=h.r;const hs=sprReady&&sprOn&&SPR.hero;
   ctx.fillStyle='#9fe36d';ctx.beginPath();ctx.arc(r*.5,-r*.15,1.6,0,7);ctx.arc(r*.5,r*.15,1.6,0,7);ctx.fill();
   if(h.flash>0){ctx.globalCompositeOperation='lighter';ctx.globalAlpha=.5;ctx.fillStyle='#f55';ctx.beginPath();ctx.arc(0,0,r,0,7);ctx.fill();}
   ctx.restore();ctx.globalAlpha=1;ctx.globalCompositeOperation='source-over';
-  ctx.font='bold 10px sans-serif';ctx.textAlign='center';ctx.fillStyle='#ffd76a';ctx.fillText('Lv '+h.level,h.x,h.y-r-12);}
+  ctx.font='bold 13px sans-serif';ctx.textAlign='center';ctx.fillStyle='#ffd76a';ctx.fillText('Lv '+h.level,h.x,h.y-r-12);}
 function sectorWorld(s){const a=SECTOR_ANCHOR[s];return pullSpawn(clamp(a[0]*WPX,16,WPX-16),clamp(a[1]*HPX,16,HPX-16));}
 function drawEdgeWarnings(t){const show=(G.counting&&G.nextIn<=14)||(G.emitters.length&&G.emitters[G.emitters.length-1].age<6);
   const list=[];if(show){const plan=G.counting?G.plan:G.curPlan;if(plan)for(const w of plan.warnings)list.push({...sectorWorld(w.sector),i:w.intensity,boss:w.boss,label:w.sector+' ×'+w.count});}
@@ -1369,7 +1370,7 @@ function drawEdgeWarnings(t){const show=(G.counting&&G.nextIn<=14)||(G.emitters.
     const size=16+w.i*60;ctx.save();ctx.translate(px,py);ctx.rotate(ang);ctx.globalAlpha=.4+.6*pulse;
     ctx.fillStyle=w.raid?'#ff2a10':'#ff3a2a';ctx.shadowColor='#f00';ctx.shadowBlur=14;ctx.beginPath();ctx.moveTo(size*.7,0);ctx.lineTo(-size*.5,-size*.55);ctx.lineTo(-size*.25,0);ctx.lineTo(-size*.5,size*.55);ctx.fill();
     ctx.beginPath();ctx.moveTo(-size*.35,0);ctx.lineTo(-size*1.1,-size*.45);ctx.lineTo(-size*.9,0);ctx.lineTo(-size*1.1,size*.45);ctx.globalAlpha*=.6;ctx.fill();ctx.restore();ctx.globalAlpha=1;
-    ctx.save();ctx.translate(px-Math.cos(ang)*(size+16),py-Math.sin(ang)*(size+16));ctx.font='bold 13px sans-serif';ctx.textAlign='center';ctx.fillStyle='#ffd0c0';ctx.strokeStyle='#000';ctx.lineWidth=3;ctx.strokeText(w.label,0,4);ctx.fillText(w.label,0,4);
+    ctx.save();ctx.translate(px-Math.cos(ang)*(size+16),py-Math.sin(ang)*(size+16));ctx.font='bold 16px sans-serif';ctx.textAlign='center';ctx.fillStyle='#ffd0c0';ctx.strokeStyle='#000';ctx.lineWidth=3;ctx.strokeText(w.label,0,4);ctx.fillText(w.label,0,4);
     if(w.boss){ctx.font='22px sans-serif';ctx.fillText('☠',0,-14);}ctx.restore();}}
 // minimap
 const mini=$('mini'),mg=mini.getContext('2d');
@@ -1654,7 +1655,9 @@ function updateHUD(){const h=G.hero;v5HUD(h);$('gold').textContent=Math.floor(G.
   $('shopBtn').classList.toggle('on',nearShop());}
 
 // ================= OVERLAYS =================
-const HELP=`<div style="text-align:center;color:#ffd76a;font-size:13px;margin:-4px 0 6px">v5.2 — 🐋 PLAGUE LEVIATHAN mini-boss (waves 9, 12 &amp; every siege) · ☠ THE STALKER boss (waves 15, 25 &amp; late rotation: dodge the red lunge line!)<br>v5.1 — NEW 3D-RENDERED GRAPHICS · built on v5.0 — THE SIEGE UPDATE: light, ley power, soul wells, siege assaults, new undead and a full skill tree</div><ul>
+var __tutWant=null;
+const INTRO53=`<ul style="font-size:17px;line-height:1.7"><li>🏛 Place your <b>Necropolis</b> — if it falls, you lose.</li><li>⚔ Every wave tells you <b>where</b> its main assault will hit and <b>when</b>. Build there.</li><li>💡 Towers only shoot what is <b>lit</b> · ⚡ every tower needs <b>power</b> · 💰 gold comes from <b>Soul Wells</b>.</li><li>☠ Your Necromancer fights too: spells on <kbd>1</kbd>-<kbd>7</kbd>, skill tree <kbd>K</kbd>. Survive <b>30 waves</b>.</li></ul><div style="text-align:center;color:#a99bc6;font-size:13px">Full rules: <b>📖 How to play</b> here or <b>?</b> in game.</div>`;
+const HELP=`<div style="text-align:center;color:#ffd76a;font-size:13px;margin:-4px 0 6px">v5.3 — guided first-wave tutorial (replay from ? help) · build previews tell you exactly why a spot is blocked · siege countdowns · bigger text · Act II veteran-start screen<br>v5.2 — 🐋 PLAGUE LEVIATHAN mini-boss (waves 9, 12 &amp; every siege) · ☠ THE STALKER boss (waves 15, 25 &amp; late rotation: dodge the red lunge line!)<br>v5.1 — NEW 3D-RENDERED GRAPHICS · built on v5.0 — THE SIEGE UPDATE: light, ley power, soul wells, siege assaults, new undead and a full skill tree</div><ul>
 <li><b>Place your Necropolis anywhere</b> on open ground — that's your base. If it falls, the game is over. It slowly regenerates when not under attack, but a breach drains it fast.</li>
 <li><b>Sieges:</b> every wave announces its <b>main assault front(s)</b> (⚔ on the minimap, red edge arrows) — 1 front, 2 from wave 14. A wave opens with a <b>trickle</b>, then the horn sounds and the <b>PUSH</b> hits: a massive clump from the front with <b>Bone-Whale battering rams</b> (they wreck walls and towers), then a <b>lull</b> to rebuild. From wave 14, waves ending in 4/9 and 5/0 are full <b>SIEGES</b> (2+ rams, sappers). Breaches show as red ✕ on the minimap.</li>
 <li><b>Grave Lanterns — light:</b> towers only shoot zombies they can <b>see</b>. Light comes from the Necropolis, Bone Shrines <kbd>Y</kbd>, cheap <b>Soul Lanterns</b> <kbd>,</kbd>, your hero and revived bosses; towers themselves only light a small circle. Zombies in the dark are invisible until they strike. Lantern-eaters hunt your lights first.</li>
@@ -1673,14 +1676,15 @@ const HELP=`<div style="text-align:center;color:#ffd76a;font-size:13px;margin:-4
 <li><b>Hidden elite bosses</b> lurk in fogged lairs — kill them for loot chests; rich soul wells sit near lairs.</li>
 <li>Camera: <kbd>Arrows</kbd>, screen-edge scroll, middle-drag, minimap click, mouse wheel zoom. <kbd>P</kbd> pause, speed 1x/2x/3x. Sound: 🔊 button / sliders top-right. Survive <b>30 waves</b> — the final boss awaits.</li></ul>`;
 function showOverlay(kind){const o=$('ov');o.style.display='flex';
-  if(kind==='intro')o.innerHTML=`<div class="box panel"><h1>NECROMANCER <span>DEFENSE</span></h1><div class="sub">Undead Outbreak — command the dead against the endless horde</div>${HELP}<div class="cta"><button class="btn" id="goBtn">Begin ☠</button><button class="btn" id="loadBtnT">📂 Load Game</button><button class="btn" id="hsBtnT">🏆 High Scores</button></div></div>`;
+  if(kind==='intro'){let td=false;try{td=localStorage.getItem('necroTut53')==='done';}catch(e){}o.innerHTML=`<div class="box panel" style="max-width:640px"><h1>NECROMANCER <span>DEFENSE</span></h1><div class="sub">Undead Outbreak — command the dead against the endless horde · v5.3</div>${INTRO53}<label style="display:block;text-align:center;margin-top:12px;font-size:16px;color:#b6ff8a;cursor:pointer"><input type="checkbox" id="tutChk" ${td?'':'checked'} style="transform:scale(1.3);margin-right:8px">${td?'Replay the guided tutorial':'Guided tutorial for the first wave (recommended)'}</label><div class="cta"><button class="btn" id="goBtn">Begin ☠</button><button class="btn" id="howBtnT">📖 How to play</button><button class="btn" id="loadBtnT">📂 Load Game</button><button class="btn" id="hsBtnT">🏆 High Scores</button></div></div>`;}
   else if(kind==='scores'){o.innerHTML=`<div class="box panel" style="max-width:900px"><h1>🏆 High <span>Scores</span></h1>${scoreBoardHTML()}<div class="cta"><button class="btn" id="backBtn">◀ Back</button></div></div>`;const bb=$('backBtn');bb.onclick=()=>showOverlay('intro');return;}
   else if(kind==='doctrine'){o.innerHTML=doctrineHTML();for(const el of o.querySelectorAll('.doc'))el.onclick=()=>{chooseDoctrine(el.dataset.d);o.style.display='none';};return;}
+  else if(kind==='howto')o.innerHTML=`<div class="box panel" style="max-height:92vh;overflow:auto"><h1>How to Play</h1>${HELP}<div class="cta"><button class="btn" id="goBtn">◀ Back</button></div></div>`;
   else if(kind==='help')o.innerHTML=`<div class="box panel"><h1>How to Play</h1>${HELP}<div class="cta"><button class="btn" id="goBtn">Resume</button></div></div>`;
   else if(kind==='over')o.innerHTML=`<div class="box panel" style="text-align:center"><h1 style="color:#ff5a3a;text-shadow:0 0 20px #f00">THE NECROPOLIS HAS FALLEN</h1><div class="sub">You survived ${Math.max(0,G.wave-1)} waves · ${G.kills} undead destroyed · hero level ${G.hero?G.hero.level:1}</div>${lastScoreHTML()}${scoreBoardHTML()}<div class="cta"><button class="btn" id="goBtn">Play Again</button></div></div>`;
   else if(kind==='win')o.innerHTML=`<div class="box panel" style="text-align:center"><h1>VICTORY</h1><div class="sub">You held back 30 waves of the outbreak! ${G.kills} undead destroyed · hero level ${G.hero.level}</div>${lastScoreHTML()}${scoreBoardHTML()}<div class="cta"><button class="btn" id="endBtn">Continue (Endless)</button><button class="btn" id="goBtn">New Game</button></div></div>`;
-  $('goBtn').onclick=()=>{if(kind==='intro'){showOverlay('doctrine');return;}else if(kind==='help'){o.style.display='none';togglePause();}else newGame(false);};
-  const lb=$('loadBtnT');if(lb)lb.onclick=()=>openMenu();const hb=$('hsBtnT');if(hb)hb.onclick=()=>showOverlay('scores');const bb=$('backBtn');if(bb)bb.onclick=()=>showOverlay('intro');
+  $('goBtn').onclick=()=>{if(kind==='intro'){const c=$('tutChk');__tutWant=c?c.checked:null;showOverlay('doctrine');return;}else if(kind==='howto'){showOverlay('intro');return;}else if(kind==='help'){o.style.display='none';togglePause();}else newGame(false);};
+  const hw=$('howBtnT');if(hw)hw.onclick=()=>showOverlay('howto');const lb=$('loadBtnT');if(lb)lb.onclick=()=>openMenu();const hb=$('hsBtnT');if(hb)hb.onclick=()=>showOverlay('scores');const bb=$('backBtn');if(bb)bb.onclick=()=>showOverlay('intro');
   const eb=$('endBtn');if(eb)eb.onclick=()=>{G.endless=true;o.style.display='none';G.counting=true;G.nextIn=20;};}
 
 // ================= GAME FLOW =================
@@ -1959,7 +1963,7 @@ setInterval(()=>{const hud=document.getElementById('baseHud'),ef=document.getEle
 },200);
 document.getElementById('baseHud').onclick=()=>{if(G.base){centerOn(G.base.x,G.base.y);G.selB=G.base;}};
 // ================= v5.0 SIEGE · LIGHT · POWER · SOUL WELLS · NEW UNDEAD =================
-const V5_VERSION='v5.2';
+const V5_VERSION='v5.3';
 // ---------- data ----------
 const PWR={spike:2,obelisk:2,pyre:3,catapult:3,outpost:1,soulLance:3,cauldron:3,lich:4,mortar:4,bell:4,sniper:5,beacon:3,harvester:1};
 for(const t in PWR)TOWERS[t].desc+=` <span style="color:#ffe27a">⚡ Uses ${PWR[t]} power (+50% per upgrade).</span>`;
@@ -2074,7 +2078,7 @@ function drawWells(t){if(!G.wells)return;for(const w of G.wells){if(!inView(w.x,
     else{ctx.fillStyle=f>0?(w.rich?'#6a4a18':'#123a4a'):'#2a2620';ctx.strokeStyle=f>0?(w.rich?'#ffc060':'#7fe0ff'):'#555';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(w.x,w.y,30,18,0,0,7);ctx.fill();ctx.stroke();}
     if(f>0&&!wd){ctx.fillStyle=w.rich?'rgba(255,210,120,.7)':'rgba(140,240,255,.7)';ctx.beginPath();ctx.ellipse(w.x,w.y,22*Math.sqrt(f),12*Math.sqrt(f),0,0,7);ctx.fill();}
     const hv=buildings.some(b=>b.alive&&b.type==='harvester'&&G.wells[b.wi]===w);bar(w.x,w.y+26,54,f,f>0?(w.rich?'#ffc060':'#7fe0ff'):'#555',4);
-    ctx.font='bold 10px sans-serif';ctx.textAlign='center';ctx.fillStyle='#fff';ctx.fillText(f>0?`${w.rich?'RICH ':''}SOUL WELL ${Math.round(w.amt)}g${hv?'':' — build Harvester [/]'}`:'DRY',w.x,w.y+42);ctx.restore();}}
+    ctx.font='bold 13px sans-serif';ctx.textAlign='center';ctx.fillStyle='#fff';ctx.strokeStyle='#000';ctx.lineWidth=3;ctx.strokeText(f>0?`${w.rich?'RICH ':''}SOUL WELL ${Math.round(w.amt)}g${hv?'':' — build Harvester [/]'}`:'DRY',w.x,w.y+44);ctx.fillText(f>0?`${w.rich?'RICH ':''}SOUL WELL ${Math.round(w.amt)}g${hv?'':' — build Harvester [/]'}`:'DRY',w.x,w.y+44);ctx.restore();}}
 const _dsr5=drawShopRings;drawShopRings=function(t){drawWells(t);_dsr5(t);};
 const _db5=drawBuilding;drawBuilding=function(b,t){if(b.type==='lantern'||b.type==='pylon'||b.type==='harvester'){drawV5Building(b,t);return;}_db5(b,t);
   if(PWR[b.type]&&G._pe<1&&b.built>=1&&b.alive){ctx.fillStyle='#ffe27a';ctx.font='bold 12px sans-serif';ctx.textAlign='center';if(Math.sin(t*6)>0)ctx.fillText('⚡',b.x+b.size*T*.35,b.y-b.size*T*.45);}};
@@ -2541,6 +2545,205 @@ const _ws52=v5WaveStart;v5WaveStart=function(plan){_ws52(plan);if(plan.levs)toas
   if(plan.stalkers)toast('☠ THE STALKER is coming this wave — it hunts your Necromancer. Keep moving and dodge the red lunge line!','#ff3030');};
 const _lg52=loadGameData;loadGameData=function(d){DEC.length=0;sweeps52.length=0;_lg52(d);for(const z of zombies){if(z.type==='stalker'&&z.ph2&&!z.s52)z.s52=1;}};
 Object.assign(window.__game,{V52_VERSION,DEC,levHP,spawnZombie:(...a)=>spawnZombie(...a),buildWave:(...a)=>buildWave(...a)});
+// ================= v5.3 GUIDED TUTORIAL · PLACEMENT PREVIEW · SIEGE COUNTDOWN · READABILITY =================
+const V53_VERSION='v5.3';
+const TUT_KEY='necroTut53';
+// ---------- styles (readability ~1.3x + new widgets) ----------
+{const st=document.createElement('style');st.textContent=`
+#top{font-size:14px;padding:5px 9px;gap:6px;left:8px;transform:none;max-width:calc(100% - 250px)}#top .btn{font-size:13px;padding:3px 7px}.btn{font-size:14px}#top b{font-size:15px}
+.bar{height:15px}.bar>span{font-size:12px;top:-1px;font-weight:600}
+#stats{font-size:13.5px;gap:1px 12px}#heroName{font-size:15px}#heroLvl{font-size:15px}#heroSP{font-size:13px!important}
+.sk .hk{font-size:15px;color:#ffd76a;background:#000c;border-radius:4px;padding:0 4px;left:2px;top:2px;line-height:17px}
+.sk .mc{font-size:12px;font-weight:bold}.sk .cdt{font-size:21px}
+.bb .hk{font-size:13px;color:#ffd76a;background:#000c;border-radius:3px;padding:0 4px;left:2px;top:2px;line-height:15px}
+.bb .cost{font-size:13px;font-weight:bold;text-shadow:0 0 3px #000,0 0 3px #000}
+#buildP>div:first-child,#invP>div:first-child{font-size:13px!important;color:#cbbfe6!important}
+#pots .lab{font-size:12px}
+#tip{font-size:14.5px;max-width:360px;line-height:1.4}#tip h4{font-size:17px}
+#selP{font-size:14px;max-width:400px}#selP h3{font-size:17px}.bst{font-size:14px}.bab{font-size:13px}#selP .mrow .btn{font-size:13px}
+#toasts div{font-size:15px}
+#banner{top:122px}#banner small{font-size:18px}
+#hint{font-size:17px;top:118px}
+#baseHud .bl{font-size:12px}#baseHud .bb span{font-size:12px}
+#respite .rs{font-size:14px}
+.tn .tt{font-size:14px}.tn .tm{font-size:12px}.tlab{font-size:12px}.tsub{font-size:13px}#tree h2{font-size:21px}.tbind .tb{font-size:14px;padding:2px 9px}
+#ov ul{font-size:15px}
+#tut53{position:absolute;right:10px;top:84px;width:370px;z-index:14;padding:12px 14px;display:none;font-size:15px;line-height:1.45;border:2px solid #9fe36d;box-shadow:0 0 22px #9fe36d55}
+#tut53 .ts{font-size:12px;color:#9fe36d;letter-spacing:1px;font-weight:bold;display:flex;justify-content:space-between}
+#tut53 h3{margin:3px 0 6px;font-size:20px;color:#ffd76a}
+#tut53 .tb2{font-size:15px;color:#efe8ff}#tut53 kbd{background:#2a1f3a;border:1px solid #9fe36d;border-radius:3px;padding:0 6px;font-size:14px;color:#fff;font-weight:bold}
+#tut53 .row{display:flex;gap:6px;margin-top:10px;justify-content:space-between;align-items:center}
+#tut53 .dots{display:flex;gap:4px}#tut53 .dots i{width:9px;height:9px;border-radius:50%;background:#3a2e4e;display:block}#tut53 .dots i.f{background:#9fe36d}#tut53 .dots i.c{background:#ffd76a;box-shadow:0 0 6px #ffd76a}
+#tut53 .ok{color:#9fe36d;font-weight:bold;margin-top:6px}
+.tutHi{outline:3px solid #ffd76a!important;outline-offset:2px;box-shadow:0 0 20px #ffd76a!important;animation:tutp .7s infinite alternate}
+@keyframes tutp{from{outline-color:#ffd76a}to{outline-color:#9fe36d}}
+#tutArrow{position:absolute;z-index:15;pointer-events:none;font-size:46px;line-height:46px;color:#ffd76a;text-shadow:0 0 10px #000,0 0 8px #ffd76a;display:none}
+#tutArrow.dn{animation:tutbd .55s infinite alternate}#tutArrow.up{animation:tutbu .55s infinite alternate}
+@keyframes tutbd{from{transform:translate(-50%,-100%)}to{transform:translate(-50%,-135%)}}
+@keyframes tutbu{from{transform:translate(-50%,0)}to{transform:translate(-50%,35%)}}
+#siege53{position:absolute;top:80px;left:calc(50% - 150px);transform:translateX(-50%);z-index:7;font-size:18px;font-weight:800;padding:5px 16px;display:none;pointer-events:none;white-space:nowrap;border-radius:8px;background:rgba(30,6,6,.88);border:2px solid #ff5a3a;color:#ffd0c0;text-shadow:0 0 6px #000}
+#siege53.pre{border-color:#ffb030;color:#ffe2b0;background:rgba(30,20,6,.88)}#siege53.push{animation:spulse .5s infinite alternate}#siege53.lev{border-color:#ff2a2a;color:#fff}
+#siege53 b{color:#fff;font-size:21px}
+@keyframes spulse{from{box-shadow:0 0 6px #f22}to{box-shadow:0 0 24px #f22}}
+#treeHint53{border:1px solid #9fe36d;background:#12200c;border-radius:7px;padding:7px 10px;margin:0 0 8px;font-size:14px;color:#dfffd0}
+#treeHint53 b{color:#ffd76a}
+#assign53{border:2px solid #ffd76a;background:#2a2008;border-radius:8px;padding:8px 10px;margin:0 0 8px;font-size:15px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+#assign53 .btn{font-size:15px;padding:4px 12px}
+`;document.head.appendChild(st);}
+// ================= 1. GUIDED FIRST-WAVE TUTORIAL =================
+const tutEl=document.createElement('div');tutEl.id='tut53';tutEl.className='panel';document.body.appendChild(tutEl);
+const tutArrow=document.createElement('div');tutArrow.id='tutArrow';document.body.appendChild(tutArrow);
+const siegeEl=document.createElement('div');siegeEl.id='siege53';document.body.appendChild(siegeEl);
+function tutIsDone(){try{return localStorage.getItem(TUT_KEY)==='done';}catch(e){return false;}}
+function tutSetDone(){try{localStorage.setItem(TUT_KEY,'done');}catch(e){}}
+const TWR53=['spike','obelisk','pyre','catapult','soulLance','cauldron','lich','mortar','bell','sniper','beacon'];
+const cnt53=t=>buildings.filter(b=>b.alive&&b.type===t).length;
+const twr53=()=>buildings.filter(b=>b.alive&&TWR53.includes(b.type)).length;
+const bb53=t=>{for(const d of buildEl.children)if(d.dataset.t===t)return d;return null;};
+function wellFree53(i){return !buildings.some(b=>b.alive&&b.type==='harvester'&&b.wi===i);}
+function nearWell53(){if(!G.wells||!G.base)return null;let best=null,bd=1e9;G.wells.forEach((w,i)=>{if(w.amt<=0||!wellFree53(i))return;const d=dist(w.x,w.y,G.base.x,G.base.y);if(d<bd){bd=d;best=w;}});return best;}
+const TUT={on:false,i:0,s:{},want:true,doneMsg:0};
+const TSTEPS=[
+ {t:'Raise your Necropolis',b:'Click open, level ground on the map to place your base. If it falls, the game is over.',done:()=>!!G.base},
+ {t:'Build a tower',b:'Press <kbd>W</kbd> (or click the glowing button) and place a <b>Bone Spike Tower</b> next to your Necropolis. A <span style="color:#9fe36d">green</span> ghost means OK; <span style="color:#ff6a5a">red</span> tells you why not.',
+  start:()=>({n:twr53()}),done:s=>twr53()>s.n,el:()=>bb53('spike'),world:()=>G.base&&{x:G.base.x,y:G.base.y,r:190,txt:'Build towers close to your base'}},
+ {t:'Light the dark',b:'Towers only shoot zombies they can <b>see</b>. Press <kbd>,</kbd> and place a <b>Soul Lantern</b> near the edge of the lit area (the yellow dashed circle is how far its light reaches).',
+  start:()=>({n:cnt53('lantern')}),done:s=>cnt53('lantern')>s.n,el:()=>bb53('lantern'),world:()=>G.base&&{x:G.base.x,y:G.base.y,r:440,txt:'Edge of your light',ring:1}},
+ {t:'Power up',b:'Every tower uses ⚡ power (top bar shows used / available). Press <kbd>.</kbd> and place an <b>Ossuary Pylon</b> for +6 power. Without spare power you cannot build more towers.',
+  start:()=>({n:cnt53('pylon')}),done:s=>cnt53('pylon')>s.n,el:()=>bb53('pylon'),hi2:()=>$('pwr')&&$('pwr').parentElement,world:()=>G.base&&{x:G.base.x,y:G.base.y,r:190,txt:'Put the pylon inside your walls'}},
+ {t:'Claim a Soul Well',b:'Gold comes from <b>Soul Wells</b>. Press <kbd>/</kbd> for a <b>Soul Harvester</b> and click the glowing well under the arrow. If it is still in fog, walk your Necromancer over first (select him, right-click).',
+  start:()=>({n:cnt53('harvester')}),done:s=>cnt53('harvester')>s.n,el:()=>bb53('harvester'),world:()=>{const w=nearWell53();return w&&{x:w.x,y:w.y,r:62,txt:'Build the Soul Harvester HERE',arrow:1};}},
+ {t:'Cast a spell',b:'Press <kbd>1</kbd> to cast <b>Raise Skeleton</b>: a new minion joins your army. Your spells live on keys <kbd>1</kbd>-<kbd>4</kbd>; ultimates on <kbd>5</kbd>-<kbd>7</kbd>.',
+  start:()=>({cd:{...(G.hero?G.hero.cds:{})}}),done:s=>{const h=G.hero;if(!h)return false;for(const k in h.cds){if((h.cds[k]||0)>(s.cd[k]||0)+.5)return true;s.cd[k]=h.cds[k];}return false;},el:()=>sbDom[0]&&sbDom[0].sk,world:()=>G.hero&&{x:G.hero.x,y:G.hero.y,r:40,txt:'Your Necromancer'}},
+ {t:'Open your skill tree',b:'Press <kbd>K</kbd> (or the <b>Skills</b> button). You get 1 point per level: click a skill to learn it, then pick a key 1-4 for it. Close the tree with ✕ when you are done.',
+  done:()=>treeOpen(),el:()=>$('treeBtn')},
+ {t:'Start the first wave',b:'The wave timer is paused while you learn. When ready press <b>Start Wave ▶</b> (or <kbd>Enter</kbd>). Each wave tells you <b>where</b> the main assault hits and <b>when</b> (banner under the base bar + red edge arrows). Build there!',
+  start:()=>({w:G.wave}),done:s=>G.wave>s.w,el:()=>$('nextBtn'),last:1}];
+function tutStart(i){TUT.on=true;TUT.i=i||0;TUT.s=TSTEPS[TUT.i].start?TSTEPS[TUT.i].start():{};TUT.doneMsg=0;tutRender();}
+function tutStop(done){TUT.on=false;tutEl.style.display='none';tutArrow.style.display='none';tutClearHi();if(done)tutSetDone();}
+function tutClearHi(){document.querySelectorAll('.tutHi').forEach(e=>e.classList.remove('tutHi'));}
+function tutNext(){TUT.i++;if(TUT.i>=TSTEPS.length){tutStop(true);toast('📘 Tutorial complete — reopen it any time from the <b>?</b> help screen.','#9fe36d');return;}const S=TSTEPS[TUT.i];TUT.s=S.start?S.start():{};sfx('click');tutRender();}
+function tutRender(){if(!TUT.on)return;const S=TSTEPS[TUT.i],n=TSTEPS.length;tutEl.style.display='block';
+  tutEl.innerHTML=`<div class="ts"><span>📘 TUTORIAL · STEP ${TUT.i+1} / ${n}</span><span class="dots">${TSTEPS.map((_,k)=>`<i class="${k<TUT.i?'f':k===TUT.i?'c':''}"></i>`).join('')}</span></div><h3>${S.t}</h3><div class="tb2">${S.b}</div>
+  ${TUT.i>0&&G.wave===0?'<div style="font-size:12px;color:#9fe36d;margin-top:6px">⏸ Wave 1 waits until you finish (or skip) the tutorial.</div>':''}
+  <div class="row"><span>${S.world?'<button class="btn" id="tutShow">👁 Show me</button>':''}</span><span><button class="btn" id="tutSkip">Skip tutorial</button>${S.last?' <button class="btn on" id="tutFin">Finish ✔</button>':''}</span></div>`;
+  const sh=$('tutShow');if(sh)sh.onclick=()=>{const w=S.world&&S.world();if(w)centerOn(w.x,w.y);};
+  $('tutSkip').onclick=()=>{tutStop(true);toast('Tutorial skipped — reopen it any time from the <b>?</b> help screen.','#c9a6ff');};
+  const f=$('tutFin');if(f)f.onclick=()=>{tutStop(true);};tutClearHi();}
+function tutTick(){if(!TUT.on)return;const S=TSTEPS[TUT.i];if(G.mode==='over'){tutStop(false);return;}
+  try{if(S.done(TUT.s)){tutNext();return;}}catch(e){}
+  // highlight + DOM arrow
+  const el=S.el&&S.el();tutClearHi();if(el)el.classList.add('tutHi');const e2=S.hi2&&S.hi2();if(e2)e2.classList.add('tutHi');
+  if(el&&el.offsetParent!==null){const r=el.getBoundingClientRect();const up=r.top<innerHeight/2;tutArrow.className=up?'up':'dn';tutArrow.textContent=up?'⬆':'⬇';tutArrow.style.left=(r.left+r.width/2)+'px';tutArrow.style.top=(up?r.bottom+4:r.top-4)+'px';tutArrow.style.display='block';}
+  else tutArrow.style.display='none';}
+setInterval(tutTick,120);
+function drawTutWorld(t){if(!TUT.on)return;const S=TSTEPS[TUT.i];const w=S.world&&S.world();if(!w)return;
+  ctx.save();ctx.setTransform(cam.z,0,0,cam.z,-cam.x*cam.z,-cam.y*cam.z);const p=.5+.5*Math.sin(t*5);
+  ctx.strokeStyle=`rgba(255,215,106,${.55+.4*p})`;ctx.lineWidth=(w.ring?3:4)/Math.min(1,cam.z);ctx.setLineDash(w.ring?[14,10]:[]);ctx.beginPath();ctx.arc(w.x,w.y,w.r+(w.ring?0:6*p),0,7);ctx.stroke();ctx.setLineDash([]);
+  const fs=Math.round(17/cam.z);ctx.font=`bold ${fs}px sans-serif`;ctx.textAlign='center';ctx.lineWidth=4/cam.z;ctx.strokeStyle='#000';const ty=w.y-w.r-(w.arrow?70:14)/cam.z;
+  if(w.arrow){const ay=w.y-w.r-10/cam.z-10*p/cam.z,s=1/cam.z;ctx.fillStyle='#ffd76a';ctx.beginPath();ctx.moveTo(w.x,ay);ctx.lineTo(w.x-18*s,ay-26*s);ctx.lineTo(w.x-7*s,ay-26*s);ctx.lineTo(w.x-7*s,ay-50*s);ctx.lineTo(w.x+7*s,ay-50*s);ctx.lineTo(w.x+7*s,ay-26*s);ctx.lineTo(w.x+18*s,ay-26*s);ctx.closePath();ctx.stroke();ctx.fill();}
+  ctx.strokeText(w.txt,w.x,ty);ctx.fillStyle='#ffd76a';ctx.fillText(w.txt,w.x,ty);ctx.restore();
+  // off-screen: point at it from the screen edge
+  const sx=(w.x-cam.x)*cam.z,sy=(w.y-cam.y)*cam.z;if(sx<0||sy<0||sx>VW||sy>VH-160){const cx=VW/2,cy=(VH-160)/2,a=Math.atan2(sy-cy,sx-cx);const k=Math.min((VW/2-60)/Math.abs(Math.cos(a)||1e-3),((VH-160)/2-50)/Math.abs(Math.sin(a)||1e-3));
+    ctx.save();ctx.translate(cx+Math.cos(a)*k,cy+Math.sin(a)*k);ctx.rotate(a);ctx.fillStyle='#ffd76a';ctx.globalAlpha=.6+.4*p;ctx.beginPath();ctx.moveTo(26,0);ctx.lineTo(-12,-16);ctx.lineTo(-12,16);ctx.fill();ctx.restore();}}
+// the first wave waits while the tutorial runs
+const _uw53=updateWaves;updateWaves=function(dt){if(TUT.on&&G.wave===0&&G.counting)G.nextIn+=dt;_uw53(dt);};
+const _cd53=chooseDoctrine;chooseDoctrine=function(k){_cd53(k);const want=__tutWant===true?true:__tutWant===false?false:!tutIsDone();if(!ACT2&&G.mode==='placeBase'&&want)tutStart(0);else if(TUT.on)tutStop(false);};
+const _sg53=startGame;startGame=function(tx,ty){_sg53(tx,ty);
+  // the two starter Soul Wells are always scouted, so a new player is never told 'unexplored fog' for them
+  if(G.wells&&G.base){G.wells.slice().sort((a,b)=>dist(a.x,a.y,G.base.x,G.base.y)-dist(b.x,b.y,G.base.x,G.base.y)).slice(0,2).forEach(w=>{const r=4;for(let y=-r;y<=r;y++)for(let x=-r;x<=r;x++){const tx2=Math.floor(w.x/T)+x,ty2=Math.floor(w.y/T)+y;if(tx2>=0&&ty2>=0&&tx2<MW&&ty2<MH)explored[I(tx2,ty2)]=1;}});G.fogDirty=true;}
+  if(TUT.on&&!ACT2)banner('The Necropolis rises!<small>Follow the 📘 tutorial on the right — wave 1 waits for you</small>','#9fe36d',4);};
+// help screen + menu: replay the tutorial
+const _so53=showOverlay;showOverlay=function(kind){_so53(kind);if(kind==='help'&&!ACT2){const cta=$('ov').querySelector('.cta');if(cta){const b=document.createElement('button');b.className='btn';b.id='tutReplay';b.textContent='📘 Replay tutorial';cta.appendChild(b);
+    b.onclick=()=>{$('ov').style.display='none';if(G.paused)togglePause();tutStart(G.base?1:0);};}}};
+{const row=document.querySelector('#menu .row');if(row&&!ACT2){const b=document.createElement('button');b.className='btn';b.id='tutMenuBtn';b.textContent='📘 Tutorial';b.onclick=()=>{closeMenu();if(G.mode==='play'||G.mode==='placeBase')tutStart(G.base?1:0);else toast('Start a game first — the tutorial runs during the first wave','#c9a6ff');};row.appendChild(b);}}
+// ================= 2. PLACEMENT PREVIEW =================
+let ghost53=null;
+function litAt53(x,y,skip){for(const b of buildings){if(!b.alive||b===skip)continue;const r=lightR(b);if(r&&dist(b.x,b.y,x,y)<r*.92)return true;}return false;}
+function baseReason53(tx,ty){const sz=TOWERS.base.size,m=7;if(tx<m||ty<m||tx+sz>MW-m||ty+sz>MH-m)return 'Too close to the map edge';const h=HGT[I(tx,ty)];
+  for(let y=0;y<sz;y++)for(let x=0;x<sz;x++){const t=I(tx+x,ty+y);if(bAt[t])return 'Another building is in the way';if(GRV[t])return 'Cannot build on a graveyard';if(RAMP[t])return 'Cannot build on a ramp';if(HGT[t]!==h)return 'Cannot straddle a cliff edge';}return 'Zombies are standing there';}
+function placeCheck53(type,tx,ty){const D=TOWERS[type],cx=(tx+D.size/2)*T,cy=(ty+D.size/2)*T;const R={ok:false,warn:[],info:[],msg:''};
+  if(type==='base'){R.ok=canPlace('base',tx,ty);R.msg=R.ok?'✔ Raise your Necropolis here':'✖ '+baseReason53(tx,ty);return R;}
+  const cost=tCost(type);if(G.gold<cost){R.msg=`✖ Not enough gold (${cost}g needed, you have ${Math.floor(G.gold)}g)`;return R;}
+  if(!canPlace(type,tx,ty)){let m=placeReason(type,tx,ty);if(/^Zombies/.test(m)&&type==='harvester'&&!wellAt(tx,ty))m='Soul Harvesters must be built ON a Soul Well';R.msg='✖ '+m;return R;}
+  R.ok=true;R.msg=`✔ ${D.name} — ${cost}g`;const p=PWR[type]?bPower(type,0):0,u=powerUsed(),c=powerCap();
+  if(p)R.info.push(`⚡ uses ${p} power (${u+p}/${c} after)`);
+  if(type==='pylon')R.info.push(`⚡ +${TOWERS.pylon.pw[0]} power (${u}/${c} → ${u}/${c+TOWERS.pylon.pw[0]}) · powers ALL towers`);
+  if(type==='lantern')R.info.push(`💡 lights a ${TOWERS.lantern.light[0]} radius (yellow circle)`);
+  if(type==='harvester'){const w=wellAt(tx,ty);if(w)R.info.push(`💰 ${Math.round(w.amt)}g in this well · ${TOWERS.harvester.hrate[0]} g/s`);}
+  if(TWR53.includes(type)&&!litAt53(cx,cy))R.warn.push('⚠ Out of light: this tower only sees ~140 around itself — add a Soul Lantern [,]');
+  if((type==='harvester'||TWR53.includes(type))&&G.base&&dist(cx,cy,G.base.x,G.base.y)>900)R.warn.push('⚠ Far from base — raiders will target it; guard it');
+  else if(type==='harvester'&&G.base&&dist(cx,cy,G.base.x,G.base.y)>550)R.warn.push('⚠ Outside the base — harvesters this far get raided');
+  return R;}
+function drawValidWells53(t){if(!G.wells)return;const p=.5+.5*Math.sin(t*5);ctx.save();G.wells.forEach((w,i)=>{if(w.amt<=0||!wellFree53(i)||!explored[tileAt(w.x,w.y)])return;
+  const ok=canPlace('harvester',w.tx,w.ty);ctx.strokeStyle=ok?`rgba(120,255,120,${.5+.45*p})`:'rgba(255,200,90,.6)';ctx.lineWidth=4/Math.min(1,cam.z);ctx.beginPath();ctx.arc(w.x,w.y,52+8*p,0,7);ctx.stroke();
+  ctx.font=`bold ${Math.round(14/Math.min(1,cam.z))}px sans-serif`;ctx.textAlign='center';ctx.lineWidth=3;ctx.strokeStyle='#000';const s=ok?'✔ BUILD HERE':'well (blocked)';ctx.strokeText(s,w.x,w.y-66);ctx.fillStyle=ok?'#9fe36d':'#ffd08a';ctx.fillText(s,w.x,w.y-66);});ctx.restore();}
+drawGhost=function(){const type=G.mode==='placeBase'?'base':G.build;const D=TOWERS[type];if(!D)return;const w=screenToWorld(input.mx,input.my);const t=performance.now()/1000;
+  let tx=Math.floor(w.x/T-D.size/2+.5),ty=Math.floor(w.y/T-D.size/2+.5);
+  if(type==='harvester'){drawValidWells53(t);const wl=wellNear(w.x,w.y,110);if(wl){tx=wl.tx;ty=wl.ty;}}
+  const R=placeCheck53(type,tx,ty);const S=D.size*T,cx=(tx+D.size/2)*T,cy=(ty+D.size/2)*T;
+  // light previews of existing light sources while placing lanterns / towers
+  if(type!=='base'&&type!=='wall'){ctx.save();ctx.setLineDash([6,8]);ctx.lineWidth=1.5;for(const b of buildings){if(!b.alive)continue;const r=lightR(b);if(r<200||!inView(b.x,b.y,r))continue;ctx.strokeStyle='rgba(255,215,106,.28)';ctx.beginPath();ctx.arc(b.x,b.y,r,0,7);ctx.stroke();}ctx.restore();}
+  const col=!R.ok?'255,70,60':R.warn.length?'255,200,60':'120,255,120';ctx.fillStyle=`rgba(${col},${R.ok?.25:.32})`;ctx.fillRect(tx*T,ty*T,S,S);ctx.strokeStyle=`rgb(${col})`;ctx.lineWidth=2.5;ctx.strokeRect(tx*T,ty*T,S,S);
+  const fake={type,tx,ty,size:D.size,x:cx,y:cy,lvl:0,hp:1,maxHp:1,aim:0,flash:0,pulse:0,high:HGT[I(clamp(tx,0,MW-1),clamp(ty,0,MH-1))]===1,built:1,wi:-1};ctx.globalAlpha=.6;try{drawBuilding(fake,t);}catch(e){}ctx.globalAlpha=1;
+  if(D.range){ctx.strokeStyle=R.ok?'rgba(159,227,109,.7)':'rgba(255,110,90,.6)';ctx.lineWidth=2;ctx.setLineDash([5,5]);ctx.beginPath();ctx.arc(cx,cy,D.range[0]*(fake.high?1.25:1),0,7);ctx.stroke();ctx.setLineDash([]);if(fake.high){ctx.fillStyle='#ffd76a';ctx.font='bold 14px sans-serif';ctx.textAlign='center';ctx.fillText('HIGH GROUND +25%',cx,ty*T-8);}}
+  const lr=type==='lantern'?TOWERS.lantern.light[0]:type==='base'?440:(type==='wall'?0:lightR(fake));if(lr){ctx.save();ctx.globalCompositeOperation='lighter';ctx.fillStyle='rgba(255,210,100,.07)';ctx.beginPath();ctx.arc(cx,cy,lr,0,7);ctx.fill();ctx.restore();ctx.strokeStyle='rgba(255,215,106,.85)';ctx.lineWidth=type==='lantern'?2.5:1.5;ctx.setLineDash([10,6]);ctx.beginPath();ctx.arc(cx,cy,lr,0,7);ctx.stroke();ctx.setLineDash([]);}
+  ghost53={R,type};};
+function drawGhostLabel53(){const g=ghost53;ghost53=null;if(!g||!(G.mode==='placeBase'||G.build))return;const R=g.R;const lines=[[R.msg,R.ok?'#b6ff8a':'#ff7a6a',true]];for(const s of R.warn)lines.push([s,'#ffd060']);for(const s of R.info)lines.push([s,'#d8ccff']);
+  ctx.save();ctx.setTransform(1,0,0,1,0,0);ctx.font='bold 15px sans-serif';let wmax=0;for(const l of lines){ctx.font=(l[2]?'bold 16px':'14px')+' sans-serif';wmax=Math.max(wmax,ctx.measureText(l[0]).width);}
+  const lh=21,bw=wmax+20,bh=lines.length*lh+10;let x=input.mx+22,y=input.my+20;if(x+bw>VW-6)x=input.mx-bw-18;if(y+bh>VH-190)y=input.my-bh-24;if(x<6)x=6;
+  ctx.fillStyle='rgba(10,6,16,.88)';ctx.strokeStyle=R.ok?(R.warn.length?'#ffd060':'#9fe36d'):'#ff5a4a';ctx.lineWidth=2;ctx.beginPath();if(ctx.roundRect)ctx.roundRect(x,y,bw,bh,7);else ctx.rect(x,y,bw,bh);ctx.fill();ctx.stroke();
+  ctx.textAlign='left';ctx.textBaseline='top';lines.forEach((l,i)=>{ctx.font=(l[2]?'bold 16px':'14px')+' sans-serif';ctx.fillStyle=l[1];ctx.fillText(l[0],x+10,y+6+i*lh);});ctx.restore();}
+// ================= 3. ACTIONABLE SIEGE WARNINGS =================
+const fmt53=s=>{s=Math.max(0,Math.ceil(s));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');};
+function levPending53(){const e=G.emitters&&G.emitters.length?G.emitters[G.emitters.length-1]:null;if(!e)return null;for(const s of e.plan.spawns){if(s.type!=='leviathan')continue;const dt=s.t-e.t;if(dt>0&&dt<=12)return{s,dt};}return null;}
+function siegeInfo53(){const F=G.front;
+  if(G.mode!=='play')return null;
+  const L=levPending53();if(L){if(!L.s.warn53){L.s.warn53=1;sfx('bossHorn');banner(`🐋 LEVIATHAN IN ${Math.ceil(L.dt)}s<small>It will crawl in from the <b>${SECN[L.s.sector]||L.s.sector}</b> and smash buildings — get towers, lanterns and your Necromancer there</small>`,'#ff3a3a',4);G.shake=Math.max(G.shake||0,3);}
+    return{cls:'lev',html:`🐋 Leviathan from the ${SECN[L.s.sector]||L.s.sector} in <b>${fmt53(L.dt)}</b>`};}
+  if(F&&G.emitters.length){const rem=F.push-(G.time-F.t0);const f=F.sectors.join(' + ');
+    if(!G.pushOn&&rem>0)return{cls:rem<10?'':'pre',html:`⚔ ${F.siege?'SIEGE — main':'Main'} assault from <b>${f}</b> in <b>${fmt53(rem)}</b>`};
+    if(G.pushOn)return{cls:'push',html:`⚔ ${F.siege?'THE SIEGE':'MAIN ASSAULT'} is hitting from <b>${f}</b> — hold the line!`};}
+  if(G.counting&&G.plan&&G.plan.fronts&&G.wave>0){const p=G.plan;return{cls:'pre',html:`⏳ Wave ${G.wave+1} in <b>${fmt53(G.nextIn)}</b> · main assault from <b>${p.fronts.join(' + ')}</b> ~${Math.round(p.pushT)}s later${p.levs?' · 🐋':''}${p.siege?' · ⚔ SIEGE':''}`};}
+  return null;}
+setInterval(()=>{const s=siegeInfo53();if(!s||G.mode!=='play'){siegeEl.style.display='none';return;}siegeEl.style.display='block';siegeEl.className=s.cls;if(siegeEl._h!==s.html){siegeEl._h=s.html;siegeEl.innerHTML=s.html;}},150);
+function drawFrontArrows53(t){if(G.mode!=='play')return;const list=[];const F=G.front;
+  if(F&&G.emitters.length){const rem=F.push-(G.time-F.t0);for(const s of F.sectors)list.push({p:sectorWorld(s),txt:G.pushOn?`${s} ASSAULT`:`${s} · ${fmt53(rem)}`,hot:G.pushOn||rem<10});}
+  else if(G.counting&&G.plan&&G.plan.fronts&&G.wave>0&&G.nextIn<=25){for(const s of G.plan.fronts)list.push({p:sectorWorld(s),txt:`${s} · ${fmt53(G.nextIn+(G.plan.pushT||0))}`,hot:false});}
+  const L=levPending53();if(L){const pp=pullSpawn(clamp(L.s.x,.3,MW-.3)*T,clamp(L.s.y,.3,MH-.3)*T);list.push({p:pp,txt:`🐋 ${fmt53(L.dt)}`,hot:true,lev:1});}
+  const cx=VW/2,cy=(VH-160)/2,pulse=.55+.45*Math.sin(t*6);
+  for(const w of list){const sx=(w.p.x-cam.x)*cam.z,sy=(w.p.y-cam.y)*cam.z;const dx=sx-cx,dy=sy-cy,a=Math.atan2(dy,dx);const W2=VW/2-70,H2=(VH-160)/2-60;let px=sx,py=sy;
+    if(Math.abs(dx)>W2||Math.abs(dy)>H2){const k=Math.min(W2/Math.abs(dx||1e-6),H2/Math.abs(dy||1e-6));px=cx+dx*k;py=cy+dy*k;}else continue;
+    ctx.save();ctx.translate(px,py);ctx.font='bold 18px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';const tw=ctx.measureText(w.txt).width+16;const ox=-Math.cos(a)*58,oy=-Math.sin(a)*58+(Math.abs(Math.sin(a))<.3?-26:0);
+    ctx.globalAlpha=w.hot?.7+.3*pulse:.95;ctx.fillStyle=w.lev?'rgba(90,0,0,.9)':w.hot?'rgba(120,10,10,.9)':'rgba(60,30,10,.88)';ctx.strokeStyle=w.hot?'#ff4a3a':'#ffb030';ctx.lineWidth=2;ctx.beginPath();if(ctx.roundRect)ctx.roundRect(ox-tw/2,oy-13,tw,26,6);else ctx.rect(ox-tw/2,oy-13,tw,26);ctx.fill();ctx.stroke();
+    ctx.fillStyle='#fff';ctx.fillText(w.txt,ox,oy+1);ctx.restore();}}
+// wave 9: a softer Leviathan debut (70% HP, slower, later, thinner escort); later waves unchanged
+const _bw53=buildWave;buildWave=function(wave,opts={}){const p=_bw53(wave,opts);if(wave!==9||ACT2||!p.levs)return p;const r=wrng((opts.seed||1337)*29+wave*131);
+  const pT=p.pushT||p.duration*.4,pL=p.pushLen||12;for(const s of p.spawns)if(s.type==='leviathan'){s.hpMul*=.7;s.spdMul=.8;s.t=+(pT+pL*.65).toFixed(2);s.debut=1;}
+  p.spawns=p.spawns.filter(s=>!(s.push&&!s.boss&&s.type!=='leviathan'&&r()<.35));
+  p.spawns.sort((a,b)=>a.t-b.t);p.total=p.spawns.length;p.duration=Math.max(...p.spawns.map(s=>s.t));
+  const cnt={};p.spawns.forEach(s=>{if(s.sector!=='GRAVE')cnt[s.sector]=(cnt[s.sector]||0)+1;});const en=p.spawns.filter(s=>s.sector!=='GRAVE').length;
+  p.warnings=Object.entries(cnt).map(([sector,n])=>({sector,count:n,intensity:n/en,boss:p.spawns.some(s=>s.boss&&s.sector===sector)}));p.soft53=1;return p;};
+const _ws53=v5WaveStart;v5WaveStart=function(plan){_ws53(plan);if(plan.soft53)toast('🐋 First Leviathan: it is weakened (70% HP) and slow — it arrives late in the assault. Watch the 🐋 countdown.','#ffb030');};
+// screen-space overlays: front arrows, tutorial marks, ghost label
+const _dew53=drawEdgeWarnings;drawEdgeWarnings=function(t){_dew53(t);try{drawFrontArrows53(t);drawTutWorld(t);drawGhostLabel53();}catch(e){console.error(e);}};
+// ================= 4. READABILITY + SKILL ASSIGN FLOW =================
+let assign53=null;
+const _ln53=learnNode;learnNode=function(id){const h=G.hero;const had=h&&h.tree[id];const ok=_ln53(id);if(ok&&NODE[id].act&&!had){const k=h.bar.indexOf(id);if(k>=0){toast(`${NODE[id].icon} <b>${NODE[id].name}</b> is on key <b>${k+1}</b>`,'#9fe36d');}else{assign53=id;}treeDirty=1;}return ok;};
+const _rt53=renderTree;renderTree=function(){_rt53();const h=G.hero;if(!h)return;const h2=treeEl.querySelector('h2');if(!h2)return;
+  let s=`<div id="treeHint53">🖱 <b>Click a skill to learn it</b> (needs skill points — you have <b>${h.sp}</b>; +1 per level). Learned <b>active</b> skills get a key: click the <b>1 2 3 4</b> buttons on the skill (or drag it onto a slot in the skill bar). Keys 5-7 are fixed ultimates.</div>`;
+  if(assign53&&nr(assign53)&&!h.bar.includes(assign53)){const n=NODE[assign53];s+=`<div id="assign53">${n.icon} <b>${n.name}</b> learned — choose a key: ${[0,1,2,3].map(k=>`<button class="btn" data-as="${k}">${k+1}${h.bar[k]?' <span style="font-size:11px;color:#aaa">(replaces '+NODE[h.bar[k]].name+')</span>':''}</button>`).join('')}<button class="btn" data-as="x">Later</button></div>`;}else assign53=null;
+  h2.insertAdjacentHTML('afterend',s);treeEl.querySelectorAll('[data-as]').forEach(b=>b.onclick=e=>{e.stopPropagation();const k=b.dataset.as;if(k!=='x'){bindSlot(assign53,+k);toast(`${NODE[assign53].name} → key ${+k+1}`,'#9fe36d');}assign53=null;renderTree();});
+  // drag a learned active onto the skill bar
+  treeEl.querySelectorAll('.tn').forEach(el=>{const id=el.dataset.n;if(!NODE[id].act||!nr(id))return;el.title='Drag onto skill-bar slot 1-4, or click a key button';el.addEventListener('pointerdown',e=>{if(e.button!==0||e.target.dataset.b)return;drag53={id,x:e.clientX,y:e.clientY,on:false};});});};
+let drag53=null;const dragGhost53=document.createElement('div');dragGhost53.style.cssText='position:absolute;z-index:50;pointer-events:none;font-size:34px;display:none;text-shadow:0 0 10px #9fe36d';document.body.appendChild(dragGhost53);
+addEventListener('pointermove',e=>{if(!drag53)return;if(!drag53.on&&Math.hypot(e.clientX-drag53.x,e.clientY-drag53.y)>10){drag53.on=true;dragGhost53.textContent=NODE[drag53.id].icon;dragGhost53.style.display='block';treeEl.style.opacity=.35;treeEl.style.pointerEvents='none';}
+  if(drag53.on){dragGhost53.style.left=e.clientX-17+'px';dragGhost53.style.top=e.clientY-20+'px';}});
+addEventListener('pointerup',e=>{const d=drag53;drag53=null;if(!d||!d.on)return;dragGhost53.style.display='none';treeEl.style.opacity=1;treeEl.style.pointerEvents='';const el=document.elementFromPoint(e.clientX,e.clientY);const k=sbDom.findIndex(s=>s.sk===el||s.sk.contains(el));
+  if(k>=0&&k<4){bindSlot(d.id,k);assign53=null;toast(`${NODE[d.id].name} → key ${k+1}`,'#9fe36d');}renderTree();});
+// clearer skill-bar key labels (e.g. "K" on the tree button is already there); timer while the tutorial holds wave 1
+const _uh53=updateHUD;updateHUD=function(){_uh53();if(TUT.on&&G.wave===0&&G.counting)$('timer').innerHTML='<span style="color:#9fe36d">⏸ Wave 1 waits for you</span>';};
+Object.assign(window.__game,{V53_VERSION,version:V53_VERSION,tutStart,tutStop,TUT,placeCheck53,siegeInfo53,buildWave:(...a)=>buildWave(...a),learnNode:(...a)=>learnNode(...a)});
 // ================= v5.2 ACT II — THE FROZEN WASTES =================
 // After wave 30 the run continues on a bigger snow map (page reloads with ?act=2; MW/MH are chosen in g1.js).
 const CARRY_KEY='necroAct2Carry',PEND_KEY='necroPendingLoad',ACT2_MAXW=45;
@@ -2562,8 +2765,8 @@ function act2Intro(){const o=$('ov');o.style.display='flex';let c=null;try{c=JSO
   <div class="sub">The outbreak has spread north. A larger, frozen land: <b>Spawning Pits</b> pump the dead toward you — destroy them all to win (or survive to wave ${ACT2_MAXW}).
   Capture ruined <b>Frost Outposts</b> (stand next to them with no undead around) for light, ⚡ power and gold — but the horde will raid them.
   <b>High ground</b> plateaus (reach them by their ramps) give towers +25% range &amp; damage, and units on them deal +20% damage and dodge 35% of attacks from below.</div>
-  ${c?`<div style="margin:10px 0;color:#ffd76a">Carried over: Necromancer level ${c.hero.level} · ${c.army.length} minions · ${Object.keys(c.res||{}).length} research · ${c.souls} souls · ${c.gold} gold → you start with ${act2Gold(c)} gold to rebuild</div>`:`<div style="margin:10px 0;color:#ccc">No Act I run found — you can start as a veteran Necromancer (level 20, 3000 gold).</div>`}
-  <div class="cta"><button class="btn" id="a2go">❄ Choose your new Necropolis site</button><button class="btn" id="loadBtnT">📂 Load Game</button><button class="btn" id="a2back">◀ Back to Act I</button></div></div>`;
+  ${c?`<div style="margin:10px 0;color:#ffd76a">Carried over: Necromancer level ${c.hero.level} · ${c.army.length} minions · ${Object.keys(c.res||{}).length} research · ${c.souls} souls · ${c.gold} gold → you start with ${act2Gold(c)} gold to rebuild</div>`:`<div id="vet53" style="border:2px solid #ffb030;border-radius:10px;padding:12px 16px;background:#2a1a0899;margin:12px 0;text-align:left"><div style="font-size:24px;color:#ffb030;font-weight:800;text-align:center">⚠ Veteran start</div><div style="font-size:16px;margin:6px 0">No finished Act I run was found in this browser, so you would jump in with a ready-made veteran:</div><ul style="font-size:16px;line-height:1.6;margin:4px 0"><li>Necromancer <b>level 20</b> with a stack of <b>unspent skill points</b> (press <b>K</b>)</li><li>Starts at <b>wave 31 of ${ACT2_MAXW}</b> — the hardest waves in the game</li><li><b>3000 gold</b> and a <b>starter army</b> (2 warriors, mage, archer, golem)</li><li><b>60 seconds</b> of build-up before wave 31 — the Spawning Pits stay quiet until then</li></ul><div style="font-size:16px;color:#ffd0a0;text-align:center;margin-top:6px"><b>Intended for players who finished Act I.</b> New here? Go back and start with Act I.</div></div>`}
+  <div class="cta"><button class="btn" id="a2go">${c?'❄ Choose your new Necropolis site':'❄ Start veteran Act II'}</button><button class="btn" id="a2back">◀ Back to Act I${c?'':' (recommended)'}</button><button class="btn" id="loadBtnT">📂 Load Game</button></div></div>`;
   $('a2go').onclick=()=>{G.a2carry=c;if(c&&c.doc){chooseDoctrine(c.doc);o.style.display='none';}else showOverlay('doctrine');toast('❄ Click open level ground to raise your Necropolis in the Frozen Wastes','#bfe6ff');};
   $('loadBtnT').onclick=()=>openMenu();$('a2back').onclick=()=>{location.href=actURL(false);};}
 const act2Gold=c=>Math.round(1500+.4*(c.gold||0));
@@ -2652,7 +2855,7 @@ const _v5z2=v5Zombie;v5Zombie=function(z,dt){if(z.type!=='pit')return _v5z2(z,dt
   let near=false;hashQuery(uh,z.x,z.y,260,u=>{if(!u.dead&&dist(u.x,u.y,z.x,z.y)<240)near=true;});
   if(!near&&z.hp<z.maxHp)z.hp=Math.min(z.maxHp,z.hp+z.maxHp*.004*dt);
   if(z.pumpT<=0){let alive=0;for(const o of zombies)if(o.alive)alive++;z.pumpT=live?8:22;if(near)z.pumpT=Math.min(z.pumpT,6);
-    if(alive<400&&G.wave>=30){const w=G.wave,n=(live?4:3)+Math.floor((w-30)/3)+(near?2:0),hm=(1+.12*(w-1)+.004*(w-1)**2)*.8;
+    if(alive<400&&G.wave>=30&&!(G.wave<=30&&G.counting)){const w=G.wave,n=(live?4:3)+Math.floor((w-30)/3)+(near?2:0),hm=(1+.12*(w-1)+.004*(w-1)**2)*.8;
       for(let i=0;i<n;i++){const a=rand(6.28),ty=PITMIX[randi(0,PITMIX.length-1)];const e=spawnZombie(ty,z.x+Math.cos(a)*70,z.y+Math.sin(a)*55,hm,1.05);e.rise=.7;e.ox=rand(-9,9);e.oy=rand(-9,9);}
       if(z.vis&&inView(z.x,z.y,200)){ring(z.x,z.y,90,'rgba(150,255,90,.8)',.6,6);burst(z.x,z.y,24,'rgba(150,255,90,1)',140,.7,3.5,true);sfx('raise',z.x,z.y,.5);}}}
   return true;};
@@ -2718,7 +2921,7 @@ function act2Begin(c){const h=G.hero,b=G.base;G.act=2;G.maxWave=ACT2_MAXW;G.wave
   try{buildShop(shopTier());G.shopTier=shopTier();}catch(e){}
   const np=placePits(5);placeCaps(6);G.pitsTotal=np;
   G.plan=buildWave(31,{graves:graveTiles,seed:G.seed});G.counting=true;G.nextIn=60;updateVision();
-  banner(`❄ ACT II — THE FROZEN WASTES<small>${np} Spawning Pits pump the horde · capture Frost Outposts · hold the high ground · wave 31 in 60s — survive to wave ${ACT2_MAXW} or destroy every pit</small>`,'#bfe6ff',6);
+  banner(`❄ ACT II — THE FROZEN WASTES<small>${c?'':'Veteran start · spend your skill points (K) · '}60s to build up before wave 31 — the pits stay quiet until then · survive to wave ${ACT2_MAXW} or destroy all ${np} pits</small>`,'#bfe6ff',7);
   try{localStorage.removeItem(CARRY_KEY);}catch(e){}G.a2carry=null;}
 Object.assign(window.__game,{act2Begin,placePits,placeCaps,capTick,startGame,ACT2:true,get caps(){return G.caps}});
 // boot: regenerate the (now snowy, bigger) map and show the Act II screen, or resume a save that asked for this act
