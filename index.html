@@ -1665,7 +1665,7 @@ const HELP=`<div style="text-align:center;color:#ffd76a;font-size:13px;margin:-4
 <li><b>Soul Wells:</b> glowing pools across the map — small near the base, rich far out and near lairs. Build a <b>Soul Harvester</b> <kbd>/</kbd> on a well to mine gold until it runs dry. Far harvesters get <b>raided</b> — defend them with towers, lanterns and Shrine Step. Kills pay much less gold than before: wells are your economy.</li>
 <li><b>Build</b> <kbd>Q</kbd> Wall · <kbd>W</kbd> Spike · <kbd>E</kbd> Obelisk · <kbd>R</kbd> Pyre · <kbd>T</kbd> Catapult · <kbd>Y</kbd> Bone Shrine · <kbd>,</kbd> Soul Lantern · <kbd>.</kbd> Ossuary Pylon · <kbd>/</kbd> Soul Harvester. <b>Unlockable</b>: <kbd>I</kbd> Soul Lance (wave 4) · <kbd>O</kbd> Plague Cauldron (wave 5) · <kbd>J</kbd> Lich Tower (hero 6) · <kbd>B</kbd> Necro Beacon (hero 6) · <kbd>C</kbd> Death Knell Bell (hero 8) · <kbd>L</kbd> Corpse Mortar (wave 9) · <kbd>V</kbd> Bone Sniper Spire (wave 12) · <kbd>D</kbd> Mercenary Camp (wave 10, hire mercs outside the minion cap). Select the <b>Necropolis</b> for the Drill Yard (gold → minion XP). Upgrade <kbd>U</kbd> / sell <kbd>Del</kbd>.</li>
 <li><b>New undead (wave 9+):</b> Lantern-eater (hunts lights), Grave-hound (fast pack, hunts your hero), Sapper (blows up pylons &amp; powered towers), Burrower (tunnels unseen, surfaces inside your defenses), Shroud-caster (dims your light — kill it first), Bone-Whale ram (siege pushes only).</li>
-<li><b>Hero (DOTA-style):</b> left-click / drag-box to select · <kbd>Right-click</kbd> move or attack · <kbd>A</kbd>+click attack-move · <kbd>S</kbd> stop · <kbd>H</kbd> hold · <kbd>F</kbd> minions follow · <kbd>G</kbd> select hero · <kbd>M</kbd> select minions · <kbd>Space</kbd> center. The Necromancer now has <b>short range</b> — zombies (and hounds) will come for you.</li>
+<li><b>Hero (DOTA-style):</b> left-click / drag-box to select · <kbd>Right-click</kbd> move or attack · <kbd>A</kbd>+click attack-move · <kbd>S</kbd> stop · <kbd>H</kbd> hold · <kbd>F</kbd> minions follow · <kbd>G</kbd> select hero · <kbd>M</kbd> select minions · <kbd>Space</kbd> center on the Necropolis. The Necromancer now has <b>short range</b> — zombies (and hounds) will come for you.</li>
 <li><b>Skill tree <kbd>K</kbd>:</b> 1 point per level across three branches — <b style="color:#7fd0ff">Elemental</b> (Bone Spear, Frost Nova, Soulfire Comet, Bone Lightning…), <b style="color:#b6ff8a">Minion</b> (Raise Skeleton/Mage/Golem, Empower, Sacrifice, Legion Lord) and <b style="color:#e0a6ff">Curses</b> (Hex of Frailty, Life Drain, Plague, Bone Ward, Lich Form). Tiers unlock with hero level and points in the branch. Bind actives to <kbd>1</kbd>-<kbd>4</kbd>; respec for gold. At the minion cap, Raise casts <b>Reinforce</b> (heal + temporary revenant).</li>
 <li><b>Ultimates:</b> <kbd>5</kbd> <b>Revive Boss</b> (Lv5: raise a slain boss/elite from its green ☠ corpse exactly as it was; max 1/2/3 at Lv5/10/15). <kbd>6</kbd> <b>Grave Cataclysm</b> (Lv6, <b>aimed</b>: place the red circle, 1.2s telegraph, massive damage + stun, the slain rise as thralls). <kbd>7</kbd> <b>Shrine Step</b>: click your Necropolis or a Bone Shrine to teleport there with nearby minions. Aimed skills: press the key, left-click to cast, right-click/<kbd>Esc</kbd> to cancel.</li>
 <li><b>Doctrine &amp; Research:</b> Bone Architect (towers, +6 power), Lord of the Dead (hero &amp; army) or Dark Commander (hybrid). Kills yield 👻 souls for the Research tree (<kbd>N</kbd>).</li>
@@ -2744,6 +2744,77 @@ addEventListener('pointerup',e=>{const d=drag53;drag53=null;if(!d||!d.on)return;
 // clearer skill-bar key labels (e.g. "K" on the tree button is already there); timer while the tutorial holds wave 1
 const _uh53=updateHUD;updateHUD=function(){_uh53();if(TUT.on&&G.wave===0&&G.counting)$('timer').innerHTML='<span style="color:#9fe36d">⏸ Wave 1 waits for you</span>';};
 Object.assign(window.__game,{V53_VERSION,version:V53_VERSION,tutStart,tutStop,TUT,placeCheck53,siegeInfo53,buildWave:(...a)=>buildWave(...a),learnNode:(...a)=>learnNode(...a)});
+// ================= v5.3 EXTERNAL PLAYTEST FIXES =================
+{const st=document.createElement('style');st.textContent=`
+#top{flex-wrap:wrap;max-width:calc(100% - 80px)!important;row-gap:3px}
+#audioP{padding:3px 4px;gap:0}#audioP>label{display:none}
+#audioDD{position:absolute;top:calc(100% + 4px);right:0;display:none;flex-direction:column;gap:8px;padding:10px 12px;min-width:210px;font-size:14px;z-index:30}
+#audioDD.open{display:flex}#audioDD label{display:flex;align-items:center;gap:8px;justify-content:space-between}#audioDD input{width:120px}
+#modal53{position:absolute;top:80px;left:50%;transform:translateX(-50%);z-index:13;display:none;pointer-events:none;font-size:15px;font-weight:bold;padding:4px 14px;border-radius:7px;background:rgba(10,8,20,.9);border:1px solid #c9a6ff;color:#e8dcff}
+#build{grid-template-columns:repeat(7,54px)!important}#build .bb{width:54px!important;height:66px!important}#build .bb canvas{width:54px!important;height:40px!important;margin-top:9px}
+.bb .cost{bottom:auto!important;top:1px;left:auto!important;right:3px;text-align:right!important;font-size:12px!important}
+.bb .nm53{position:absolute;left:0;right:0;bottom:1px;text-align:center;font-size:11px;font-weight:bold;color:#eadcff;text-shadow:0 0 3px #000;white-space:nowrap;overflow:hidden}
+#ver53{color:#a99bc6;font-size:12px;font-weight:bold;border:1px solid #4a3866;border-radius:4px;padding:0 5px}
+`;document.head.appendChild(st);}
+// --- 7. build-bar name labels + version in the header
+const SHORT53={wall:'Wall',spike:'Spike',obelisk:'Obelisk',pyre:'Pyre',catapult:'Catapult',shrine:'Shrine',soulLance:'Lance',cauldron:'Cauldron',lich:'Lich',beacon:'Beacon',bell:'Bell',mortar:'Mortar',sniper:'Sniper',merc:'Mercs',lantern:'Lantern',pylon:'Pylon',harvester:'Harvester'};
+for(const d of buildEl.children){const t=d.dataset.t;const n=document.createElement('div');n.className='nm53';n.textContent=SHORT53[t]||(TOWERS[t].name.split(' ').pop());d.appendChild(n);d.title='';}
+{const v=document.createElement('span');v.id='ver53';v.textContent=V53_VERSION;v.title='Necromancer Defense version';$('helpBtn').after(v);}
+// --- 3. volume: collapsed button + dropdown that closes on 2nd click / Escape / click-outside
+const audioDD=document.createElement('div');audioDD.id='audioDD';audioDD.className='panel';
+{const ap=$('audioP');audioDD.innerHTML='<button class="btn" id="muteBtn2" style="width:100%"></button>';for(const l of [...ap.querySelectorAll('label')]){l.style.display='flex';const nm=document.createElement('span');nm.textContent=l.title;l.prepend(nm);audioDD.appendChild(l);}ap.appendChild(audioDD);ap.style.position='absolute';}
+function audioOpen53(){return audioDD.classList.contains('open');}
+function syncMute53(){const b=$('muteBtn2');if(b)b.textContent=AU.muted?'🔇 Sound off — click to unmute':'🔊 Sound on — click to mute';}
+$('muteBtn').onclick=e=>{e.stopPropagation();audioDD.classList.toggle('open');syncMute53();};$('muteBtn').title='Sound settings';
+$('muteBtn2').onclick=e=>{e.stopPropagation();toggleMute();syncMute53();};
+document.addEventListener('pointerdown',e=>{if(audioOpen53()&&!$('audioP').contains(e.target))audioDD.classList.remove('open');},true);
+// buttons never keep keyboard focus (Space/Enter must reach the game, not re-click a button)
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('button');if(b)b.blur();},true);
+// --- 1. camera: always inside the map; Space always recentres on the Necropolis
+clampCam=function(){const vw=VW/cam.z,vh=VH/cam.z,hud=150/cam.z;
+  cam.x=vw>=WPX?(WPX-vw)/2:clamp(cam.x,0,WPX-vw);cam.y=vh-hud>=HPX?(HPX-vh+hud)/2:clamp(cam.y,0,HPX-vh+hud);};
+addEventListener('keydown',e=>{const k=e.key;
+  if(k==='Escape'&&audioOpen53()){audioDD.classList.remove('open');e.stopImmediatePropagation();return;}
+  if(k===' '){e.preventDefault();input.keys[' ']=true;if(e.repeat){e.stopImmediatePropagation();return;}
+    if(G.mode==='play'){const b=G.base&&G.base.alive?G.base:(G.hero&&!G.hero.dead?G.hero:null);if(b)centerOn(b.x,b.y);}e.stopImmediatePropagation();}},true);
+addEventListener('keyup',e=>{if(e.key===' ')e.preventDefault();},true);
+// --- 2. Play Again / New Game = a genuine fresh start (page reload), straight to the doctrine choice
+const _so54=showOverlay;showOverlay=function(kind){_so54(kind);if(kind==='over'||kind==='win'){const gb=$('goBtn');if(gb)gb.onclick=()=>{try{sessionStorage.setItem('necroSkipIntro','1');}catch(e){}location.href=actURL(false);};}};
+if(!ACT2){let sk=null;try{sk=sessionStorage.getItem('necroSkipIntro');sessionStorage.removeItem('necroSkipIntro');}catch(e){}if(sk&&G.mode==='intro')showOverlay('doctrine');}
+// --- 4. modal panels pause the game
+function modal53(){return treeOpen()||researchOpen()||$('shop').style.display==='block'||$('menu').style.display==='flex'||audioOpen53();}
+const modalEl=document.createElement('div');modalEl.id='modal53';modalEl.textContent='⏸ Game paused while this panel is open';document.body.appendChild(modalEl);
+// --- 6. one source of truth for HUD numbers; HP never above max
+function clampHP53(){for(const u of units){if(u.dead)continue;const m=u.utype==='hero'&&u.st?u.st.maxHp:u.maxHp;if(m&&u.hp>m)u.hp=m;}for(const b of buildings)if(b.alive&&b.hp>b.maxHp)b.hp=b.maxHp;if(G.gold<0)G.gold=0;}
+const _upd53=update;update=function(dt){if(G.mode==='play'&&modal53())return;_upd53(dt);clampHP53();};
+const fmtHP53=(hp,m)=>`${Math.max(0,Math.round(Math.min(hp,m)))}/${Math.round(m)}`;
+const _uh54=updateHUD;updateHUD=function(){_uh54();modalEl.style.display=G.mode==='play'&&modal53()?'block':'none';
+  const b=G.base;if(b){const t=fmtHP53(b.hp,b.maxHp);$('baseTxt').textContent=t;const sp=document.querySelector('#baseHud .bb span');if(sp)sp.textContent=`${t}  (${Math.round(Math.min(1,b.hp/b.maxHp)*100)}%)`;}
+  const h=G.hero;if(h&&!h.dead&&h.st)$('hpTxt').textContent=`${fmtHP53(h.hp,h.st.maxHp).replace('/',' / ')}  +${h.st.hregen.toFixed(1)}`;
+  $('gold').textContent=Math.floor(G.gold);};
+// base bar text written by the 200ms alarm loop uses the same formatter
+setInterval(()=>{const b=G.base,sp=document.querySelector('#baseHud .bb span');if(b&&sp)sp.textContent=`${fmtHP53(b.hp,b.maxHp)}  (${Math.round(Math.min(1,b.hp/b.maxHp)*100)}%)`;},100);
+// towers show the same level number on the map as the info panel (Lv 1/2/3)
+const _db54=drawBuilding;drawBuilding=function(b,t){_db54(b,t);const D=TOWERS[b.type];if(b.alive&&b.lvl>0&&D&&D.up&&D.up.length&&b.type!=='wall'){const S=b.size*T;ctx.save();ctx.font='bold 12px sans-serif';ctx.textAlign='right';ctx.lineWidth=3;ctx.strokeStyle='#000';ctx.fillStyle='#ffd76a';ctx.strokeText('Lv'+(b.lvl+1),b.tx*T+S,b.ty*T+S-2);ctx.fillText('Lv'+(b.lvl+1),b.tx*T+S,b.ty*T+S-2);ctx.restore();}};
+// --- 5. smoother early curve: waves 1-5 harder, 6-9 gentler; less dead time between waves
+const CURVE54={1:[1.35,1.3],2:[1.35,1.3],3:[1.3,1.25],4:[1.25,1.2],5:[1.1,1.1],6:[.86,.88],7:[.85,.86],8:[.85,.86],9:[.92,.92],10:[.88,.9],11:[.94,.95]};
+const _bw54=buildWave;buildWave=function(wave,opts={}){const p=_bw54(wave,opts);const f=CURVE54[wave];if(ACT2||!f)return p;const[cm,hm]=f;const r=wrng((opts.seed||1337)*17+wave*7717);
+  for(const s of p.spawns)if(!s.boss&&s.type!=='leviathan')s.hpMul=(s.hpMul||1)*hm;
+  if(cm<1)p.spawns=p.spawns.filter(s=>s.boss||s.type==='leviathan'||r()<cm);
+  else{const add=[];for(const s of p.spawns)if(!s.boss&&r()<cm-1)add.push({...s,t:+(s.t+.3+r()*.6).toFixed(2),x:s.x+(r()-.5)*2,y:s.y+(r()-.5)*2});p.spawns.push(...add);}
+  p.spawns.sort((a,b)=>a.t-b.t);p.total=p.spawns.length;p.duration=Math.max(...p.spawns.map(s=>s.t));
+  const cnt={};p.spawns.forEach(s=>{if(s.sector!=='GRAVE')cnt[s.sector]=(cnt[s.sector]||0)+1;});const en=p.spawns.filter(s=>s.sector!=='GRAVE').length;
+  p.warnings=Object.entries(cnt).map(([sector,n])=>({sector,count:n,intensity:n/en,boss:p.spawns.some(s=>s.boss&&s.sector===sector)}));p.curve54=f;return p;};
+let _cnt54=false;const _uw54=updateWaves;updateWaves=function(dt){_uw54(dt);if(G.counting&&!_cnt54&&G.wave>0&&!G.respite&&!(G.act===2&&G.wave<=30))G.nextIn=Math.min(G.nextIn,G.wave<3?18:14);_cnt54=G.counting;};
+// faster walk-in: undead still far out in the dark march 60% faster until they near your base or step into light
+const _uz54=updateZombie;updateZombie=function(z,dt){const b=G.base;if(b&&!z.boss&&!z.elite&&!z.huntB&&!z.vis&&z.rise<=0){const dx=z.x-b.x,dy=z.y-b.y;if(dx*dx+dy*dy>900*900){const s=z.spd;z.spd=s*1.6;try{_uz54(z,dt);}finally{z.spd=s;}return;}}_uz54(z,dt);};
+Object.assign(window.__game,{clampCam:()=>clampCam(),modal53,CURVE54,audioOpen53});
+// bottom HUD always fits the window (bigger text must never push the minimap off-screen)
+function fitBottom53(){const el=$('bottom');if(!el)return;el.style.zoom='';const base=parseFloat(getComputedStyle(el).zoom)||1;const need=el.scrollWidth,have=el.clientWidth;if(need>have+2)el.style.zoom=(base*have/need).toFixed(3);
+  const tb=Math.round($('top').getBoundingClientRect().bottom);$('baseHud').style.top=(tb+4)+'px';siegeEl.style.top=modalEl.style.top=(tb+40)+'px';$('banner').style.top=(tb+80)+'px';$('hint').style.top=(tb+76)+'px';tutEl.style.top=(tb+44)+'px';}
+addEventListener('resize',()=>setTimeout(fitBottom53,50));setTimeout(fitBottom53,300);setTimeout(fitBottom53,2000);
+{const st=document.createElement('style');st.textContent='#audioDD{min-width:270px}#audioDD label span{white-space:nowrap}';document.head.appendChild(st);}
+setInterval(()=>{const tb=Math.round($('top').getBoundingClientRect().bottom);const v=(tb+4)+'px';if($('baseHud').style.top!==v){$('baseHud').style.top=v;siegeEl.style.top=modalEl.style.top=(tb+40)+'px';$('banner').style.top=(tb+80)+'px';$('hint').style.top=(tb+76)+'px';tutEl.style.top=(tb+44)+'px';}},1000);
 // ================= v5.2 ACT II — THE FROZEN WASTES =================
 // After wave 30 the run continues on a bigger snow map (page reloads with ?act=2; MW/MH are chosen in g1.js).
 const CARRY_KEY='necroAct2Carry',PEND_KEY='necroPendingLoad',ACT2_MAXW=45;
